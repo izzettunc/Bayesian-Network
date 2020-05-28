@@ -53,7 +53,7 @@ public class data {
                 }
             } catch (IOException e) {
                 System.out.print(e.getMessage());
-                //gui.show_error_message(e.getMessage(),"IOException");
+                gui.show_error_message(e.getMessage(),"IOException");
             }
             if (row == null) break;
             Object[] elements = row.split(",");
@@ -63,7 +63,7 @@ public class data {
             csvReader.close();
         } catch (IOException e) {
             System.out.print(e.getMessage());
-            //gui.show_error_message(e.getMessage(),"IOException");
+            gui.show_error_message(e.getMessage(),"IOException");
         }
     }
 
