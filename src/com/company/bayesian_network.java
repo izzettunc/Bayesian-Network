@@ -1,15 +1,21 @@
 package com.company;
 
 import java.awt.desktop.SystemSleepEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Set;
 
 public class bayesian_network {
     network conditions;
     data train_data;
     data test_data;
+
+    private int[][] cm;
 
     Hashtable<String, customIndexedMatrix<String>> cpTables;
     Hashtable<String, Boolean> isVisited;
@@ -39,7 +45,7 @@ public class bayesian_network {
         for (int i = 0; i < row_count; i++) {
             truth[i] = test_data.dataMatrix[i][target_col_index];
         }
-        double counter = 0;
+
         ArrayList<String> classes = test_data.uniques.get(target_col_index);
         Hashtable<String, BigDecimal> probabilities = new Hashtable<>();
         Hashtable<String, BigDecimal> probabilitiesWOZ = new Hashtable<>();
@@ -91,7 +97,7 @@ public class bayesian_network {
                 }
             }
         }
-        print_stats_from_confusion_matrix(calc_confusion_matrix(truth, prediction));
+        cm = calc_confusion_matrix(truth, prediction);
     }
 
     private int[][] calc_confusion_matrix(Object[] truth, Object[] pred) {
@@ -110,15 +116,61 @@ public class bayesian_network {
         return cm;
     }
 
-    private void print_stats_from_confusion_matrix(int[][] cm) {
-        double acc = (double) (cm[0][0] + cm[1][1]) / (double) (cm[1][1] + cm[1][0] + cm[0][1] + cm[0][0]);
-        System.out.println("Accuracy : " + acc);
-        System.out.println("True Positive Count : " + cm[0][0]);
-        double tpr = (double) cm[0][0] / (double) (cm[0][0] + cm[1][0]);
-        System.out.println("True Positive Ratio : " + tpr);
-        System.out.println("True Negative Count : " + cm[1][1]);
-        double tnr = (double) cm[1][1] / (double) (cm[1][1] + cm[0][1]);
-        System.out.println("True Negative Ratio : " + tnr);
+    public void print_stats_from_confusion_matrix(String name) {
+        try {
+            FileWriter fw=null;
+            File f = new File("results\\");
+            if(!f.exists())
+                f.mkdir();
+            fw = new FileWriter("results\\stats_"+name+".csv");
+            double acc = (double) (cm[0][0] + cm[1][1]) / (double) (cm[1][1] + cm[1][0] + cm[0][1] + cm[0][0]);
+            fw.write("Accuracy : " + acc+"\n");
+            fw.write("True Positive Count : " + cm[0][0]+"\n");
+            double tpr = (double) cm[0][0] / (double) (cm[0][0] + cm[1][0]);
+            fw.write("True Positive Ratio : " + tpr+"\n");
+            fw.write("True Negative Count : " + cm[1][1]+"\n");
+            double tnr = (double) cm[1][1] / (double) (cm[1][1] + cm[0][1]);
+            fw.write("True Negative Ratio : " + tnr+"\n");
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void print_cpts()
+    {
+        try {
+                FileWriter fw = null;
+                File f = new File("results\\");
+                if (!f.exists())
+                    f.mkdir();
+                Set<String> keys = cpTables.keySet();
+                for (String key : keys) {
+                    fw = new FileWriter("results\\cpt_"+key+".csv");
+                    customIndexedMatrix<String> cpt = cpTables.get(key);
+                    Object[][] table = cpt.matrix;
+                    fw.write("rows\\cols,");
+                    for(int j = 0; j < table[0].length; j++)
+                        if(j==table[0].length-1)
+                            fw.write(cpt.col_indices.get(j)+"\n");
+                        else
+                            fw.write(cpt.col_indices.get(j)+",");
+                    for (int i = 0; i < table.length; i++) {
+                        fw.write(cpt.row_indices.get(i)+",");
+                        for (int j = 0;j < table[0].length; j++) {
+                            if(j==table[0].length-1)
+                                fw.write(((double)table[i][j])+"\n");
+                            else
+                                fw.write(((double)table[i][j])+",");
+                        }
+                    }
+                    fw.flush();
+                    fw.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     private void calculate_cpts() {
