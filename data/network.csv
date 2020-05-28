@@ -1,0 +1,6 @@
+class,purpose,housing,personal_status,property_magnitude,job,employment,own_telephone,credit_history
+class,purpose,housing,property_magnitude,personal_status,employment,job,own_telephone,credit_history
+property_magnitude,housing,job
+housing,purpose,personal_status
+job,employment,own_telephone
+own_telephone,credit_history
