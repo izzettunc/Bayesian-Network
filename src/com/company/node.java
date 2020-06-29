@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 
+/* Basic graph component */
 public class node {
     public String name;
     public ArrayList<node> connectedTo;

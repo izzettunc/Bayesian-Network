@@ -37,7 +37,7 @@ public class data {
             csvReader = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {
             System.out.print(e.getMessage());
-            //gui.show_error_message(e.getMessage(),"FileNotFoundException");
+            gui.show_error_message(e.getMessage(),"FileNotFoundException");
         }
         boolean f = true;
         while (true) {

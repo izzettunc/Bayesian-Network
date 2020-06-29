@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
+/* Basic graph structure */
 public class network {
     node root;
     private Hashtable<String,node> nodes = new Hashtable<>();
@@ -32,6 +33,7 @@ public class network {
         return nodes.get(name);
     }
 
+    //reads and creates the graph
     public network(String path)
     {
         String row = null;
@@ -40,7 +42,7 @@ public class network {
             csvReader = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {
             System.out.print(e.getMessage());
-            //gui.show_error_message(e.getMessage(),"FileNotFoundException");
+            gui.show_error_message(e.getMessage(),"FileNotFoundException");
         }
         boolean f = true;
         while (true) {

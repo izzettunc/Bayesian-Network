@@ -11,7 +11,7 @@ public class settings {
     static boolean print_test_acc=false;
     static boolean print_train_acc=false;
 
-
+    //Pipeline
     static void run()
     {
         //Prepares the data

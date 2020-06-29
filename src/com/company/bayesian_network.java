@@ -15,7 +15,7 @@ public class bayesian_network {
     data train_data;
     data test_data;
 
-    private int[][] cm;
+    private int[][] cm; //confusion matrix
 
     Hashtable<String, customIndexedMatrix<String>> cpTables;
     Hashtable<String, Boolean> isVisited;
@@ -49,6 +49,11 @@ public class bayesian_network {
         ArrayList<String> classes = test_data.uniques.get(target_col_index);
         Hashtable<String, BigDecimal> probabilities = new Hashtable<>();
         Hashtable<String, BigDecimal> probabilitiesWOZ = new Hashtable<>();
+
+        /* For every row find probability of given row for each class
+        *  and normalize them with sum of all classes probabilities
+        *  then assign the class that has biggest probability to class of the row
+        * */
         for (int i = 0; i < row_count; i++) {
             BigDecimal total = BigDecimal.ZERO;
             BigDecimal totalWOZ = BigDecimal.ZERO;
@@ -61,7 +66,7 @@ public class bayesian_network {
                         customIndexedMatrix<String> table = cpTables.get(test_data.labels.get(j));
                         String row = "";
                         node col_node = conditions.get_node(test_data.labels.get(j));
-                        for (node connection : col_node.connectedFrom) {
+                        for (node connection : col_node.connectedFrom) { //Creates index for cpt table
                             if (connection.name.equals(target_col))
                                 row += "|" + c;
                             else {
@@ -69,7 +74,7 @@ public class bayesian_network {
                                 row += "|" + con_col_val;
                             }
                         }
-                        row = row.substring(1);
+                        row = row.substring(1);//remove first character which is "|"
                         BigDecimal prob = BigDecimal.valueOf((double) table.get(row, test_data.dataMatrix[i][j]));
                         cProb = cProb.multiply(prob);
                         if (prob.compareTo(BigDecimal.ZERO) != 0)
@@ -85,7 +90,7 @@ public class bayesian_network {
                 total = total.add(cProb);
                 totalWOZ = totalWOZ.add(cProbWOZ);
             }
-            for (String c : classes) {
+            for (String c : classes) {//Find biggest probability and assign that class to the row
                 BigDecimal t;
                 if (total.compareTo(BigDecimal.ZERO) != 0)
                     t = probabilities.get(c).divide(total, RoundingMode.HALF_UP);
@@ -225,6 +230,17 @@ public class bayesian_network {
             }
         }
         ArrayList<String> row_indices = new ArrayList<>();
+        //Iterates every possible combination
+        /* For that uses basically an array of numbers(iterators) like belowe
+        *  0 0 0 0 0.... 0
+        *  increases last element every iteration then
+        *  iterates every other element for controlling if its reaches its limit like below
+        *  limits: 2 3 5
+        *  index:  0 0 5
+        *  if reached increases left of it and assign itself to zero so
+        *  index will be 0 1 0
+        *  and continues until the leftmost element reaches its limit
+        * */
         for (int iterator = 0; iterator < row; iterator++) {
 
             double total = 0;
@@ -243,9 +259,11 @@ public class bayesian_network {
                     }
                 }
             }
+            //creates value matrix
             for (int i = 0; i < col; i++) {
                 raw_cpt[iterator][i] = ((double) raw_cpt[iterator][i]) / total;
             }
+            //creates indices
             String row_index = "";
             for (int i = 0; i < condition_indices.size(); i++) {
                 row_index += "|" + condition_list.get(i).get(condition_indices.get(i));
@@ -253,6 +271,7 @@ public class bayesian_network {
             if (!row_index.equals(""))
                 row_index = row_index.substring(1);
             row_indices.add(row_index);
+
             //Index increaser
             if (condition_list.size() == 0) break;
             condition_indices.set(condition_indices.size() - 1, condition_indices.get(condition_indices.size() - 1) + 1);

@@ -10,6 +10,10 @@ public class customIndexedMatrix<T> {
     public ArrayList<T> row_indices;
     public ArrayList<T> col_indices;
 
+    /* This matrix holds information in a matrix with custom index
+    *  So instead of using integers for indexing, string,datetime objects
+    *  or other type of objects can be used
+    */
     public customIndexedMatrix(Object[][] matrix, ArrayList<T> rowIndices, ArrayList<T> colIndices)
     {
         this.matrix=matrix;

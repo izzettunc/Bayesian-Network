@@ -1,17 +1,13 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.ImageObserver;
 import java.io.File;
-import java.text.AttributedCharacterIterator;
 
 public class gui {
 
@@ -65,6 +61,7 @@ public class gui {
 
         //Listeners
 
+        //Data open file dialog
         data_ofd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,6 +77,7 @@ public class gui {
             }
         });
 
+        //Network open file dialog
         network_ofd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,6 +93,7 @@ public class gui {
             }
         });
 
+        //Test data open file dialog
         test_ofd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,9 +109,6 @@ public class gui {
             }
         });
 
-
-
-
         main.add(target_feature_label);
         main.add(target_feature_textfield);
         main.add(data_ofd);
@@ -126,8 +122,9 @@ public class gui {
         main.add(test_acc_cbox);
         main.add(run_button);
 
+        //More listeners
 
-
+        //print cpt table combobox
         cpt_cbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -135,6 +132,7 @@ public class gui {
             }
         });
 
+        //print train acc combobox
         train_acc_cbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -142,6 +140,7 @@ public class gui {
             }
         });
 
+        //print test acc combobox
         test_acc_cbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
