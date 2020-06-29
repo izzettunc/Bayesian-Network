@@ -57,7 +57,7 @@ To get a local copy up and running follow these simple steps.
 
 1.  Clone the repo
 ```sh
-git clone https://github.com/izzettunc/newsClassification.git
+git clone https://github.com/izzettunc/Bayesian-Network.git
 ```
 
 2. Open src folder in a Java Editor
@@ -76,7 +76,9 @@ Here is some unneeded screenshots for how to use it
 * Press run
 
 ![Application Screen Shot][app-screenshot]
+**Stats**
 ![Application Screen Shot][stats]
+**Conditional probability table**
 ![Application Screen Shot][cpt]
 
 ## About Input Structure
@@ -116,7 +118,7 @@ an      ,bn      ,cn      ,...,nn       <- record n
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/izzettunc/newsClassification/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/izzettunc/Bayesian-Network/issues) for a list of proposed features (and known issues).
 
 <!-- LICENSE -->
 ## License
