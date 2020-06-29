@@ -76,9 +76,13 @@ Here is some unneeded screenshots for how to use it
 * Press run
 
 ![Application Screen Shot][app-screenshot]
+
 **Stats**
+
 ![Application Screen Shot][stats]
+
 **Conditional probability table**
+
 ![Application Screen Shot][cpt]
 
 ## About Input Structure
